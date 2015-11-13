@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+			    xmlns:h="http://java.sun.com/jsf/html"
+			    xmlns:f="http://java.sun.com/jsf/core"
+			    xmlns:ui="http://java.sun.com/jsf/facelets"
+			    xmlns:p="http://primefaces.org/ui" 
+				template="/templates/templateAdmin.xhtml">
+				
+	<ui:define name="tituloPagina">
+		Usuários Cadastrados
+	</ui:define>
+	
+	<ui:define name="conteudo">
+		
+		<h:form id="form" prependId="false">  
+		
+		    <p:dataTable
+		    	id="usuarios"
+		    	var="u"
+		    	value="#{usuarioController.usuarios}"
+		    	paginator="true"
+		    	rowKey="#{u.id}"  
+		        selection="#{usuarioController.usuario}"
+		        selectionMode="single"
+		        paginatorPosition="bottom"  
+                paginatorAlwaysVisible="false"  
+                rows="10"                                          
+                emptyMessage="Nenhum Usuário Encontrado">  
+		  
+		        <f:facet name="header">  
+		            Lista de Usuário Cadastrados
+		        </f:facet>  
+		          
+		        <p:column headerText="Usuário">  
+		        	<h:outputText value="#{u.login}" />  
+		        </p:column>  
+		        
+		        <p:column headerText="Nome">  
+		        	<h:outputText value="#{u.tipo != 'PJ' ? u.nome : u.nomeFantasia}" />  
+		        </p:column>
+		  
+		        <p:column headerText="e-mail">  
+		            <h:outputText value="#{u.email}" />  
+		        </p:column> 
+		        
+		        <p:column headerText="Perfil">  
+		            <h:outputText value="#{u.permissao == '[ROLE_ADMINISTRADOR]' ? 'Administrador' : 'Lançador'}" />  
+		        </p:column>
+		        
+		        <p:column headerText="Telefone">  
+		            <h:outputText value="#{u.telefone}" />  
+		        </p:column>
+		  
+		        <p:column headerText="Tipo" >  
+		            <h:outputText value="#{u.tipo}"  /> 
+		        </p:column>  
+		  
+		        <p:column headerText="Status">  
+		            <h:outputText value="#{u.ativo == true ? 'Ativo' : 'Inativo'}" />  
+		        </p:column>  
+		  
+		        <f:facet name="footer"> 
+		        	<p:commandButton id="mostrarButton" value="Mostrar" icon="ui-icon-search" update=":form:display" oncomplete="usuarioDialog.show()"/> 
+		        	<p:commandButton id="alterarButton" value="Alterar" icon="ui-icon-pencil" action="#{usuarioController.editarUsuario()}"/>
+		        	<p:commandButton id="removerButton" value="Remover" icon="ui-icon-close" action="#{usuarioController.excluir()}" update="usuarios, @form"/>
+		        </f:facet>  
+		  
+		    </p:dataTable>  
+		  
+		    <p:dialog id="dialog" header="Detalhes do Usuário" widgetVar="usuarioDialog" resizable="false"  width="400" showEffect="clip" hideEffect="fold">  
+		  
+		        <h:panelGrid id="display" columns="2" cellpadding="4"> 
+		  
+		            <h:outputText value="Usuário:" />  
+		            <h:outputText value="#{usuarioController.usuario.login}" /> 
+		            
+		            <h:outputText value="Senha:" />  
+		            <h:outputText value="#{usuarioController.usuario.senha}" /> 
+		  
+		            <h:outputText value="#{usuarioController.usuario.tipo == 'PF' ? 'Nome:' : 'Nome Fantasia:'}" />  
+		            <h:outputText value="#{usuarioController.usuario.tipo == 'PF' ? usuarioController.usuario.nome : usuarioController.usuario.nomeFantasia}" />
+		            
+		            <h:outputText rendered="#{usuarioController.usuario.tipo == 'PF' ? false : true}" value="Razão Social:" />  
+		            <h:outputText rendered="#{usuarioController.usuario.tipo == 'PF' ? false : true}" value="#{usuarioController.usuario.razaoSocial}" />  
+		  
+		            <h:outputText value="#{usuarioController.usuario.tipo == 'PF' ? 'CPF:' : 'CNPJ:'}" />  
+		            <h:outputText value="#{usuarioController.usuario.tipo == 'PF' ? usuarioController.usuario.cpf : usuarioController.usuario.cnpj}" />  
+		  
+		            <h:outputText value="#{usuarioController.usuario.tipo == 'PF' ? 'RG:' : 'IE:'}" />  
+		            <h:outputText value="#{usuarioController.usuario.tipo == 'PF' ? usuarioController.usuario.rg : usuarioController.usuario.ie}" />
+		            
+		            <h:outputText value="e-mail:" />  
+		            <h:outputText value="#{usuarioController.usuario.email}" />
+		            
+		            <h:outputText value="Telefone:" />  
+		            <h:outputText value="#{usuarioController.usuario.telefone}" />
+		            
+		            <h:outputText value="Tipo:" />  
+		            <h:outputText value="#{usuarioController.usuario.tipo}" />
+		            
+		            <h:outputText value="Perfil:" />  
+		            <h:outputText value="#{usuarioController.usuario.permissao == '[ROLE_ADMINISTRADOR]' ? 'Administrador' : 'Lançador'}" />
+		            
+		            <h:outputText value="Status Usuário:" />
+		            <h:outputText value="#{usuarioController.usuario.ativo == true ? 'Ativo' : 'Inativo'}" />
+		            
+		            <p:commandButton id="alterarButton" value="Alterar" icon="ui-icon-pencil" action="#{usuarioController.editarUsuario()}"/>
+		        	<p:commandButton id="removerButton" value="Remover" icon="ui-icon-close" action="#{usuarioController.excluir()}" update="usuarios, @form"/>
+		            
+		        </h:panelGrid>  
+		        
+		    </p:dialog>  
+		  
+		</h:form>
+		
+	</ui:define>
+	
+</ui:composition>

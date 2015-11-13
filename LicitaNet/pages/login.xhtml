@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+			    xmlns:h="http://java.sun.com/jsf/html"
+			    xmlns:f="http://java.sun.com/jsf/core"
+			    xmlns:ui="http://java.sun.com/jsf/facelets"
+			    xmlns:p="http://primefaces.org/ui" 
+				template="/templates/templateLogin.xhtml">
+	<ui:define name="tituloPagina">
+		Login
+	</ui:define>
+	<ui:define name="conteudo">
+		<div id="login">
+			<div id="loginInterno">
+				<div id="loginImagem" align="center">
+					<h:graphicImage value="/imagens/logo.png" alt="SLI - Sistema de Leilão Imvertido" />
+				</div>
+				<div id="loginForm" align="center">
+					
+					<form action="${request.contextPath}/j_spring_security_check" method="post" >  
+					    <h:panelGrid columns="2">  
+					        <h:outputLabel value="Login" for="j_username" />  
+					        <h:inputText id="j_username" required="true" requiredMessage="Informe o login" />  
+					        <h:outputLabel value="Senha" for="j_password" />  
+					        <h:inputSecret id="j_password" required="true" requiredMessage="Informe a senha" />  
+					    </h:panelGrid>  
+					    <h:commandButton type="submit" value="Login" />  
+					    <input type="checkbox" name="_spring_security_remember_me" id="_spring_security_remember_me" value="true"/>
+					    <h:outputLabel value="Manter conectado" />  
+					</form> 
+					<h:panelGroup rendered="#{!empty param.login_error}">
+						<span style="font-color:red}">Erro ao efetuar o login.</span><br />
+						<br />
+						Motivo: #{SPRING_SECURITY_LAST_EXCEPTION.message}
+					</h:panelGroup>
+				</div>
+			</div>
+		</div>			
+	</ui:define>
+</ui:composition>

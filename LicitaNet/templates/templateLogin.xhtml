@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>  
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+<script type="text/javascript" src="#{facesContext.externalContext.request.contextPath}/js/jquery-1.7.1.js"></script>
+<link rel="stylesheet" href="#{facesContext.externalContext.request.contextPath}/css/style.css" type="text/css" />
+<title><ui:insert name="tituloPagina"/></title>
+</h:head>
+<h:body>
+	<ui:insert name="conteudo"/>
+</h:body>
+</html>

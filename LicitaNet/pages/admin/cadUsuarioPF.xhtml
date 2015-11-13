@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+			    xmlns:h="http://java.sun.com/jsf/html"
+			    xmlns:f="http://java.sun.com/jsf/core"
+			    xmlns:ui="http://java.sun.com/jsf/facelets"
+			    xmlns:p="http://primefaces.org/ui" 
+				template="/templates/templateAdmin.xhtml">
+	<ui:define name="tituloPagina">
+		Cadastro de Usuário
+	</ui:define>
+	<ui:define name="conteudo">
+		<div id="cadastraUsuario" >
+		
+			<h:form>
+			
+				<p:panel header="#{usuarioController.usuario.id == null ? ':::... INSIRA OS DADOS DO USUÁRIO PARA CADASTRAR ...:::' : ':::... INSIRA OS DADOS DO USUÁRIO PARA ALTERAR ...:::'}" style="font-size: 12px;" > 
+			  		
+			  		<br />
+			  						  		 
+			        <h:panelGrid columns="3" id="grid">       
+			                      
+			            <h:outputLabel value="Usuário: " for="usuario"/>  
+			            <p:inputText id="usuario" value="#{usuarioController.usuario.login}" label="usuario" required="true" requiredMessage="Campo Obrigatório" style="width:200px"/>
+			            <p:message id="msgusuario" for="usuario" display="text" />
+			  
+			            <h:outputLabel value="Senha: " for="senha"/>  						              
+			            <p:password id="senha" value="#{usuarioController.usuario.senha}" label="senha" required="true" requiredMessage="Campo Obrigatório" style="width:200px"/>  
+			            <p:message id="msgsenha" for="senha" display="text"/>
+			            
+			            <h:outputLabel value="Nome: " for="nome" />  
+			            <p:inputText id="nome" value="#{usuarioController.usuario.nome}" label="nome" required="true" requiredMessage="Campo Obrigatório" style="width:200px"/>
+			            <p:message id="msgnome" for="nome" display="text" />
+			            
+			            <h:outputLabel value="CPF: " for="cpf" />  
+			            <p:inputMask mask="999.999.999-99" id="cpf" value="#{usuarioController.usuario.cpf}" label="cpf" required="true" requiredMessage="Campo Obrigatório" style="width:200px"/>
+			            <p:message id="msgcpf" for="cpf" display="text" />
+			            
+			            <h:outputLabel value="RG: " for="rg" />  
+			            <p:inputText id="rg" value="#{usuarioController.usuario.rg}" label="rg" required="true" requiredMessage="Campo Obrigatório" style="width:200px"/>
+			            <p:message id="msgrg" for="rg" display="text" />
+			            
+			            <h:outputLabel value="e-mail: " for="email" />  
+			            <p:inputText id="email" value="#{usuarioController.usuario.email}" label="email" required="true" requiredMessage="Campo Obrigatório" validatorMessage="O e-mail informado é inválido" style="width:200px">
+			            	<f:validateRegex pattern="(^[_A-Za-z0-9-]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$)" />
+			            </p:inputText>
+			            <p:message id="msgemail" for="email" display="text" />
+			            
+			            <h:outputLabel value="Telefone: " for="telefone" />
+			            <p:inputMask mask="(99) 9999-9999" id="telefone" value="#{usuarioController.usuario.telefone}" label="telefone" required="true" requiredMessage="Campo Obrigatório" style="width:200px"/>
+			            <p:message id="msgtelefone" for="telefone" display="text" />
+			            
+			            <h:outputLabel for="permissao" value="Permissão: " />
+			            <p:selectOneMenu id="permissao" label="permissao" value="#{usuarioController.permissao}" required="true"  requiredMessage="Selecione uma opção" style="width:200px">
+			            	<f:selectItem itemLabel="-- Selecione --" itemValue=""/>
+			            	<f:selectItem itemLabel="Administrador" itemValue="ROLE_ADMINISTRADOR"/>
+			            	<f:selectItem itemLabel="Lançador" itemValue="ROLE_LANCADOR"/>
+						</p:selectOneMenu>
+						<p:message id="msgpermissao" for="permissao" display="text" />
+						
+						<h:outputLabel for="status" value="Status Usuário: " />
+			            <p:selectOneMenu id="status" label="status" value="#{usuarioController.usuario.ativo}" required="true" requiredMessage="Selecione uma opção" style="width:200px">
+			            	<f:selectItem itemLabel="Ativo" itemValue="true"/>
+			            	<f:selectItem itemLabel="Inativo" itemValue="false"/>
+						</p:selectOneMenu>
+						<p:message id="msgstatus" for="status" display="text" />
+												
+						<h:inputHidden value="PF"  binding="#{usuarioController.hidden}" />
+						<br />
+						<h:inputHidden value="#{usuarioController.usuario.id}" />
+						
+						<br />
+						<h:outputText value="* Todos os campos são obrigatórios." styleClass="campoObrigatorio" />
+						<br />		
+			            
+			        </h:panelGrid>
+			        
+			        <f:facet name="footer">  
+			        	<p:commandButton action="#{usuarioController.salvar}" icon="ui-icon-disk" ajax="false" value="Gravar"/>
+				    </f:facet> 	 
+				             
+			    </p:panel>
+			    
+			</h:form> 
+			
+		</div>
+	</ui:define>
+</ui:composition>

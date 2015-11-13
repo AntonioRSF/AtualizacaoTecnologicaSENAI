@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+			    xmlns:h="http://java.sun.com/jsf/html"
+			    xmlns:f="http://java.sun.com/jsf/core"
+			    xmlns:ui="http://java.sun.com/jsf/facelets"
+			    xmlns:p="http://primefaces.org/ui" 
+				template="/templates/templateAdmin.xhtml">
+				
+	<ui:define name="tituloPagina">
+		Produtos Cadastrados
+	</ui:define>
+	
+	<ui:define name="conteudo">
+		
+		<h:form id="form" prependId="false">  
+  
+		    <p:dataTable
+		    	id="produtos"
+		    	var="p"
+		    	value="#{produtoController.produtos}"
+		    	paginator="true"
+		    	rowKey="#{p.id}"  
+		        selection="#{produtoController.produto}"
+		        selectionMode="single"
+		        paginatorPosition="bottom"  
+                paginatorAlwaysVisible="false"  
+                rows="10"                                          
+                emptyMessage="Nenhum Produto Encontrado">  
+		  
+		        <f:facet name="header">  
+		            Lista de Produtos Cadastrados  
+		        </f:facet>  
+		          
+		        <p:column headerText="Código">  
+		        	<h:outputText value="#{p.id}" />  
+		        </p:column>  
+		        
+		        <p:column headerText="Nome">  
+		        	<h:outputText value="#{p.nome}" />  
+		        </p:column>
+		  
+		        <p:column headerText="Detalhes">  
+		            <h:outputText value="#{p.detalhes}" />  
+		        </p:column>  
+		        
+		        <f:facet name="footer"> 
+		        	<p:commandButton id="mostrarButton" value="Mostrar" icon="ui-icon-search" update=":form:display" oncomplete="prodDialog.show()"/> 
+		        	<p:commandButton id="alterarButton" value="Alterar" icon="ui-icon-pencil" action="#{menuController.produtoAlterar()}"/>
+		        	<p:commandButton id="removerButton" value="Remover" icon="ui-icon-close" action="#{produtoController.excluir()}" update="produtos, @form"/>
+		        </f:facet>  
+		  
+		    </p:dataTable>  
+		  
+		    <p:dialog id="dialog" header="Detalhes do Produto" widgetVar="prodDialog" resizable="false"  width="400" showEffect="clip" hideEffect="fold">  
+		  
+		        <h:panelGrid id="display" columns="2" cellpadding="4"> 
+
+		            <h:outputText value="Código:" />  
+		            <h:outputText value="#{produtoController.produto.id}" /> 
+		            		  
+		            <h:outputText value="Produto:" />  
+		            <h:outputText value="#{produtoController.produto.nome}" /> 
+		            
+		            <h:outputText value="Detalhes:" />  
+		            <h:outputText value="#{produtoController.produto.detalhes}" /> 
+	            
+		            <p:commandButton id="alterarButton" value="Alterar" icon="ui-icon-pencil" action="#{menuController.produtoAlterar()}"/>
+		        	<p:commandButton id="removerButton" value="Remover" icon="ui-icon-close" action="#{produtoController.excluir()}" update="produtos, @form"/>
+		            
+		        </h:panelGrid>  
+		        
+		    </p:dialog>  
+		  
+		</h:form>
+		
+	</ui:define>
+	
+</ui:composition>

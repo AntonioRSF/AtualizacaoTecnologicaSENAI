@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+			    xmlns:h="http://java.sun.com/jsf/html"
+			    xmlns:f="http://java.sun.com/jsf/core"
+			    xmlns:ui="http://java.sun.com/jsf/facelets"
+			    xmlns:p="http://primefaces.org/ui" 
+				template="/templates/templateAdmin.xhtml">
+	<ui:define name="tituloPagina">
+		Ofertas Cadastradas
+	</ui:define>
+	<ui:define name="conteudo">
+		
+		<h:form id="form">  
+  
+		    <p:dataTable
+		    	id="ofertas"
+		    	var="o"
+		    	value="#{ofertaController.ofertas}"
+		    	paginator="true"
+		    	rowKey="#{o.id}"  
+		        selection="#{ofertaController.oferta}"
+		        selectionMode="single"
+		        paginatorPosition="bottom"  
+                paginatorAlwaysVisible="false"  
+                rows="10"                                          
+                emptyMessage="Nenhum dado encontrado">  
+		  
+		        <f:facet name="header" >  
+		            Lista de Ofertas Cadastradas  
+		        </f:facet>  
+		          
+		        <p:column headerText="Descrição" filterBy="#{o.descricao}" filterStyle="width: 350px" >  
+		        	<h:outputText value="#{o.descricao}" />  
+		        </p:column>  
+		        
+		        <p:column headerText="Ganhador" filterBy="#{o.usuarioVencedor.tipo == 'PF' ? o.usuarioVencedor.nome : o.usuarioVencedor.nomeFantasia}">  
+		        	<h:outputText value="#{o.status == 'ANDAMENTO' || o.status == 'PROGRAMADA' ? 'Leilão em Andamento' :  (o.usuarioVencedor.tipo == 'PF' ? o.usuarioVencedor.nome : o.usuarioVencedor.nomeFantasia)}" />  
+		        </p:column>
+		  
+		        <p:column headerText="Inicio" style="width: 120px;" filterBy="#{o.dataInicioStr}">  
+		            <h:outputText value="#{o.dataInicioStr}" />  
+		        </p:column>  
+		        
+		        <p:column headerText="Fim" style="width: 120px;" filterBy="#{o.dataFimStr}">  
+		            <h:outputText value="#{o.dataFimStr}" />  
+		        </p:column>
+		  
+		        <p:column headerText="Status" style="width: 100px;" filterBy="#{o.status}" filterOptions="#{ofertaController.statusFilter}" filterMatchMode="exact">  
+		            <h:outputText value="#{o.status}" />  
+		        </p:column>  
+		  
+		        <f:facet name="footer"> 
+		        	<p:commandButton id="viewButton" value="Mostrar" icon="ui-icon-search" update=":form:display" oncomplete="ofertaDialog.show()"/> 
+		        	<p:commandButton id="alterarButton" value="Alterar" icon="ui-icon-pencil" action="#{ofertaController.editar}"/>
+		        	<p:commandButton id="removerButton" value="Remover" icon="ui-icon-close" action="#{ofertaController.remover}" update="ofertas, @form"/>
+		        </f:facet>  
+		  
+		    </p:dataTable>
+		    
+		    <p:dialog id="dialog" header="Detalhes da Oferta" widgetVar="ofertaDialog" resizable="false"  width="400" showEffect="clip" hideEffect="fold">  
+		  
+		        <h:panelGrid id="display" columns="2" cellpadding="4"> 
+		  
+		  
+				  	<h:outputText value="Produto:" />  
+		            <h:outputText value="#{ofertaController.oferta.produto.nome}" />
+		            
+		            <h:outputText value="Descrição:" />  
+		            <h:outputText value="#{ofertaController.oferta.descricao}" />
+
+					<h:outputText value="Quantidade:" />  
+		            <h:outputText value="#{ofertaController.oferta.quantidade}" />
+			            
+			        <h:outputText value="Data inicial:" />  
+		            <h:outputText value="#{ofertaController.oferta.dataInicioStr}" />
+			            
+				    <h:outputText value="Data final:" />  
+		            <h:outputText value="#{ofertaController.oferta.dataFimStr}" />
+				    
+				    <h:outputText value="Status:" />  
+		            <h:outputText value="#{ofertaController.oferta.status}" />	
+		            
+		            <h:outputText value="Vencedor:" />
+		            <h:outputText value="#{ofertaController.oferta.status == 'ANDAMENTO' || ofertaController.oferta.status == 'PROGRAMADA' ? 'Leilão em Andamento' : (ofertaController.oferta.usuarioVencedor.tipo == 'PF' ? ofertaController.oferta.usuarioVencedor.nome : ofertaController.oferta.usuarioVencedor.nomeFantasia)}" />	  
+		  
+		            <p:commandButton id="alterarButton" value="Alterar" icon="ui-icon-pencil" action="#{ofertaController.editar}"/>
+		        	<p:commandButton id="removerButton" value="Remover" icon="ui-icon-close" action="#{ofertaController.remover}" update="ofertas, @form"/>
+		            
+		        </h:panelGrid>  
+		        
+		    </p:dialog>  
+		      
+		  		  
+		</h:form>		
+		
+	</ui:define>
+</ui:composition>

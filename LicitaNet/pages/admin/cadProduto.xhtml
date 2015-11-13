@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+			    xmlns:h="http://java.sun.com/jsf/html"
+			    xmlns:f="http://java.sun.com/jsf/core"
+			    xmlns:ui="http://java.sun.com/jsf/facelets"
+			    xmlns:p="http://primefaces.org/ui" 
+				template="/templates/templateAdmin.xhtml">
+	<ui:define name="tituloPagina">
+		Cadastro de Produtos
+	</ui:define>
+	<ui:define name="conteudo">
+		<div id="cadastraProduto">
+		
+			<h:form>
+			
+				<p:panel header="#{produtoController.produto.id == null ? ':::... INSIRA OS DADOS DO PRODUTO PARA CADASTRAR ...:::' : ':::... INSIRA OS DADOS DO PRODUTO PARA ALTERAR ...:::'}" style="font-size: 12px;"> 
+			  		
+			  		<br />	
+			  						  		 
+			        <h:panelGrid columns="3" id="grid">       
+			                      	
+						<h:outputLabel value="Produto: " for="produto"/>  
+						<p:inputText id="produto" value="#{produtoController.produto.nome}" label="produto" required="true" requiredMessage="Campo Obrigatório" style="width:200px"/>
+						<p:message id="msgproduto" for="produto" display="text" />
+				
+						<h:outputLabel value="Detalhes: " for="detalhes"/>  
+						<p:inputTextarea id="detalhes" value="#{produtoController.produto.detalhes}" label="detalhes" required="true" requiredMessage="Campo Obrigatório" style="width:200px; height: 100px"/>
+						<p:message id="msgdetalhes" for="detalhes" display="text" />
+				
+						<h:inputHidden value="#{produtoController.produto.id}"/>							
+						<h:outputText value="* Todos os campos são obrigatórios." styleClass="campoObrigatorio" />
+						
+					</h:panelGrid>
+					
+		           	<f:facet name="footer">  
+		        		<p:commandButton action="#{produtoController.salvar}" icon="ui-icon-disk" ajax="false" value="Gravar"/>
+			    	</f:facet>
+			    	
+			    </p:panel>
+			    
+			</h:form> 
+			
+		</div>
+		
+	</ui:define>
+</ui:composition>

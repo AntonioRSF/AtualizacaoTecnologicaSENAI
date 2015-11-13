@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>  
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:sec="http://www.springframework.org/security/facelets/tags">
+<h:head>
+<title><ui:insert name="tituloPagina"/></title>
+<link rel="stylesheet" href="#{facesContext.externalContext.request.contextPath}/css/style.css" type="text/css" />
+<link rel="stylesheet" href="#{facesContext.externalContext.request.contextPath}/css/jquery.countdown.css" type="text/css" />
+<script type="text/javascript" src="#{facesContext.externalContext.request.contextPath}/js/jquery.countdown.js" ></script>
+<script type="text/javascript" src="#{facesContext.externalContext.request.contextPath}/js/jquery.countdown-pt-BR.js"></script>
+</h:head>
+<h:body>
+	<div id="geral">
+		<div id="cabecalho">
+			<div id="cabecalhoImagem" align="center">
+				<img class="imagemCabecalho" src="#{facesContext.externalContext.request.contextPath}/imagens/logo_admin.png" alt="SLI - Sistema de Leilão Imvertido" />
+			</div>
+			<div id="cabecalhoConteudo">
+				<div id="cabecalhoSuperior" align="center">
+					<img class="imagemCabecalhoLetreiro" src="#{facesContext.externalContext.request.contextPath}/imagens/logo_letreiro.png" alt="SLI - Sistema de Leilão Imvertido" />
+				</div>
+				<div id="cabecalhoInferior" align="right">
+					<h:outputText value="Olá #{request.userPrincipal.name}" />
+				</div>
+			</div>
+		</div>	
+		<div id="menu">
+			<h:form>			    
+			    <p:menubar autoDisplay="false" styleClass="menu">  
+			    
+			    	<p:menuitem value="Home" icon="ui-icon-home" url="#{menuController.home()}"/>
+			    	
+			    	<sec:ifAnyGranted roles="ROLE_ADMINISTRADOR">
+			    	
+				    	<p:submenu label="Usuario" icon="ui-icon-person">			    	
+				    		<p:submenu label="Novo" icon="ui-icon-document">
+				    			<p:menuitem value="Pessoa Física" url="#{menuController.usuarioCadPF()}" />
+				    			<p:menuitem value="Pessoa Juridica" url="#{menuController.usuarioCadPJ()}" />
+				    		</p:submenu>  
+				    					    		
+				            <p:menuitem value="Consultar" icon="ui-icon-search" url="#{menuController.usuarioConsultar()}" />  
+				        </p:submenu>  
+				        
+				        <p:submenu label="Produto" icon="ui-icon-suitcase">
+				    		<p:menuitem value="Novo" icon="ui-icon-document" url="#{menuController.produtoNovo()}" />  
+				            <p:menuitem value="Consultar" icon="ui-icon-search" url="#{menuController.produtoConsultar()}" />  
+				        </p:submenu> 
+				        
+				        <p:submenu label="Oferta" icon="ui-icon-tag">
+				    		<p:menuitem value="Novo" icon="ui-icon-document" url="#{menuController.ofertaNovo()}" />  
+				            <p:menuitem value="Consultar" icon="ui-icon-search" url="#{menuController.ofertaConsultar()}" />  
+				        </p:submenu>
+				        
+			        </sec:ifAnyGranted> 
+			        
+			        <p:menuitem value="Leilões" icon="ui-icon-flag" url="#{menuController.leiloes()}"  />
+			        
+			        <p:menuitem value="Sair" icon="ui-icon-close" url="${request.contextPath}/j_spring_security_logout" />  
+			        
+			    </p:menubar>    
+			  
+			</h:form>
+		</div>
+		<div id="conteudo" align="center">
+			<div align="center" style="width: 90%">
+				<h:form id="formMessages">  
+				    <p:messages id="messages" showDetail="true" autoUpdate="true" globalOnly="true" /> 			      
+				</h:form>  
+			</div>	
+			<ui:insert name="conteudo"/>
+		</div>
+		<div id="rodape" align="center">
+			<hr />
+			<h:outputText styleClass="textoRodape" value="Desenvolvido para fins de aprendizado - Avaliação de Programação Web - Nildo / Samuel / Sérgio - Copyright © - 2012" />
+		</div>
+	</div>
+</h:body>
+</html>

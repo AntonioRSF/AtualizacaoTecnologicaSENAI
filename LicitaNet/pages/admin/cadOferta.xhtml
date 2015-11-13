@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>  
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+			    xmlns:h="http://java.sun.com/jsf/html"
+			    xmlns:f="http://java.sun.com/jsf/core"
+			    xmlns:ui="http://java.sun.com/jsf/facelets"
+			    xmlns:p="http://primefaces.org/ui" 
+				template="/templates/templateAdmin.xhtml">
+	<ui:define name="tituloPagina">
+		Sistema de Leilão Invertido - Cadastro de Oferta
+	</ui:define>
+	<ui:define name="conteudo">
+		<div id="cadastraOferta">
+			<h:form>
+				<p:panel header="Insira os dados da oferta:" >
+										  		 
+			       	
+   	
+			        <h:panelGrid columns="3" id="grid">       
+			        	
+			            <h:outputLabel value="Produto: " for="produto"/>
+			            <p:selectOneMenu id="produto"  
+	                        value="#{ofertaController.oferta.produto.id}" required="true"  
+	                        requiredMessage="Campo Obrigatório." style="width:200px;">  
+	                        <f:selectItem itemLabel="--selecione--" />  
+	                        <f:selectItems value="#{ofertaController.produtosItens}" />  
+	                    </p:selectOneMenu> 
+                   
+				        <p:message id="msgproduto" for="produto" display="text" />
+				        
+  				        <h:outputLabel value="Descrição: " for="descricao" />  
+			            <p:inputTextarea id="descricao" value="#{ofertaController.oferta.descricao}" label="descricao" required="true" requiredMessage="Campo Obrigatório" style="width:200px" maxlength="200" rows="5" autoResize="false" />
+			            <p:message id="msgdescricao" for="descricao" display="text" />
+			            
+			            <h:outputLabel value="Quantidade: " for="quantidade" />  
+			            <p:inputText id="quantidade" value="#{ofertaController.oferta.quantidade}" label="quantidade" required="true" requiredMessage="Campo Obrigatório" style="width:200px"/>
+			            <p:message id="msgquantidade" for="quantidade" display="text" />
+			            
+				        <h:outputLabel value="Data inicial da oferta: " for="dtInicio" />  
+						<p:calendar value="#{ofertaController.oferta.dataInicio}" pattern="dd/MM/yyyy HH:mm:ss" id="dtInicio" required="true" requiredMessage="Campo Obrigatório"/>
+						<p:message id="msgdtinicio" for="dtInicio" display="text" />
+				        
+				        <h:outputLabel value="Data final da oferta: " for="dtFim" />  
+						<p:calendar value="#{ofertaController.oferta.dataFim}" pattern="dd/MM/yyyy HH:mm:ss" id="dtFim" required="true" requiredMessage="Campo Obrigatório"/>
+						<p:message id="msgdtfim" for="dtFim" display="text" />
+						
+						<h:outputLabel value="Status: " for="status" />  
+			            <p:inputText id="status" value="#{ofertaController.oferta.status}" label="status" style="width:200px" disabled="true"/>
+						
+						<h:outputText value="* Todos os campos são obrigatórios." styleClass="campoObrigatorio" />
+			        </h:panelGrid>
+
+ 					<f:facet name="footer">  
+			        	<p:commandButton action="#{ofertaController.gravar}" icon="ui-icon-disk" value="Gravar"/>
+				    </f:facet> 
+			        	          
+			    </p:panel>
+			</h:form> 
+		</div>
+	</ui:define>
+			      
+</ui:composition>

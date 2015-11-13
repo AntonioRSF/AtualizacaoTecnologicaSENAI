@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<b:beans xmlns="http://www.springframework.org/schema/security"
+    xmlns:b="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    					http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                        http://www.springframework.org/schema/security 
+                        http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+	<http>
+		<intercept-url pattern="/pages/admin/**" access="ROLE_ADMINISTRADOR" />
+		<intercept-url pattern="/pages/lancador/**" access="ROLE_LANCADOR,ROLE_ADMINISTRADOR" />
+		<intercept-url pattern="/pages/publico/**" access="ROLE_LANCADOR,ROLE_ADMINISTRADOR" />
+		
+		<form-login login-page="/pages/login.jsf"
+			always-use-default-target="true" default-target-url="/pages/publico/admin.jsf"
+			authentication-failure-url="/pages/login.jsf?login_error=1" />
+		
+		<logout/>
+		
+		<remember-me />
+	</http>
+
+	<authentication-manager>
+		<authentication-provider>
+			<jdbc-user-service data-source-ref="licitanetdbDataSource"
+				authorities-by-username-query="SELECT u.login, p.permissao 
+											 FROM usuario u, usuario_permissao p 
+											WHERE u.id = p.idUsuario 
+											  AND u.login = ?"
+				users-by-username-query="SELECT login, senha, ativo 
+									   FROM usuario 
+									  WHERE login = ?" />
+		</authentication-provider>
+	</authentication-manager>
+</b:beans>

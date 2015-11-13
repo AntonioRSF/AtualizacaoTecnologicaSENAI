@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+			    xmlns:h="http://java.sun.com/jsf/html"
+			    xmlns:f="http://java.sun.com/jsf/core"
+			    xmlns:ui="http://java.sun.com/jsf/facelets"
+			    xmlns:p="http://primefaces.org/ui" 
+				template="/templates/templateAdmin.xhtml"
+				xmlns:sec="http://www.springframework.org/security/facelets/tags">
+	<ui:define name="tituloPagina">
+		Lance dos Leilões em Andamento
+	</ui:define>
+	<ui:define name="conteudo">
+		
+		<h:form prependId="false">
+			
+				<div id="lances">
+				
+					<div id="lancesTop">
+						<h:outputText value="Área de Lances" />
+					</div>
+					
+					<div id="lanceConteudo">
+			
+						<div id="lancesEsquerda" align="left">
+							
+							
+   							
+							<h:panelGrid title="Detalhes da Oferta" columns="2" cellpadding="4" id="dadosOferta"> 
+							
+								<f:facet  name="header">  
+						            <h:outputText value="Detalhes da Oferta" styleClass="gridLance" />  
+						        </f:facet>
+		  
+					            <h:outputText value="Código da Oferta:" />  
+					            <h:outputText value="#{leilaoController.oferta.id}" style="font-weight: bold;" /> 
+					            
+					            <h:outputText value="Produto:" />  
+					            <h:outputText value="#{leilaoController.oferta.produto.nome}" style="font-weight: bold;" /> 
+					            
+					            <h:outputText value="Descrição:" />  
+					            <h:outputText value="#{leilaoController.oferta.descricao}" style="font-weight: bold;" />
+					            
+					            <h:outputText value="Quantidade:" />  
+					            <h:outputText value="#{leilaoController.oferta.quantidade}" style="font-weight: bold;" />  
+					            
+					            <h:outputText value="Menor Lance:" />  
+					            <h:outputText value="#{leilaoController.menorLance.valor}" id="menorLance" style="font-weight: bold;" />
+					            
+					            <h:outputText value="Meu Menor Lance:" />  
+					            <h:outputText value="#{leilaoController.menorLanceUsuario.valor}" id="menorLanceUsuario" style="font-weight: bold;" />
+					            
+					            <h:outputText value="Quem deu o Menor Lance:" />  
+					            <h:outputText value="#{leilaoController.menorLance.usuario.tipo == 'PF' ? leilaoController.menorLance.usuario.nome : leilaoController.menorLance.usuario.nomeFantasia}" id="quemDeuMenorLanceUsuario" style="font-weight: bold;" />
+					            
+					            <h:inputHidden value="#{leilaoController.oferta.id}" />
+					            
+					            <sec:ifAnyGranted roles="ROLE_LANCADOR">				            
+						            <f:facet name="footer">
+						            	<p:inputText
+						            		id="valorLance" 
+						            		name="valorLance" 
+						            		value="#{leilaoController.lance.valor}" 
+						            		label="valorLance" 
+						            		style="width: 120px;" />
+						            	
+							        	<p:commandButton id="darLance" value="Dar Lance" icon="ui-icon-pencil" action="#{leilaoController.salvar}" update="tabelaLance, menorLance, menorLanceUsuario, quemDeuMenorLanceUsuario" /> 
+							        	<p:commandButton id="atualizaTabela" value="Atualizar Lances" icon="ui-icon-refresh" action="#{leilaoController.recuperaLancesPorOferta()}" update="tabelaLance, menorLance, menorLanceUsuario, quemDeuMenorLanceUsuario"/>
+							        </f:facet> 					        
+						        </sec:ifAnyGranted> 
+						        
+						        <sec:ifAnyGranted roles="ROLE_ADMINISTRADOR"> 
+						        	<p:commandButton id="atualizaTabela" value="Atualizar Lances" icon="ui-icon-refresh" action="#{leilaoController.recuperaLancesPorOferta()}" update="tabelaLance, menorLance, menorLanceUsuario"/>					        
+						        </sec:ifAnyGranted> 
+						        					            
+					        </h:panelGrid> 
+							
+							<div id="cronometro" align="center">
+								<h:outputText value="Tempo para fim da oferta:" /> 
+								<div id="defaultCountdown" style="width: 240px; height: 45px;"></div>
+	   							<script type="text/javascript" src="#{facesContext.externalContext.request.contextPath}/js/cronometroOferta.js" ></script>
+	   							<script>
+									jQuery(document).ready(function(){
+										initCronometro('#{leilaoController.oferta.dataFim}');
+									});
+	   							</script>
+   							</div>
+						</div>
+						
+						<div id="LancesDireita">
+							
+							<p:dataTable
+						    	id="tabelaLance"
+						    	var="l"
+						    	value="#{leilaoController.listaLancesPorOferta}"
+						    	rowKey="#{l.id}"  
+                                       
+				                emptyMessage="Não foi dado nenhum lance para esta oferta">  
+						  
+						        <f:facet name="header">  
+						            <h:outputText value="Lances Dados" styleClass="gridLance" />  
+						        </f:facet>  
+						          
+						        <p:column headerText="Data / Hora" style="width: 120px;">  
+						        	<h:outputText value="#{l.dataStr}" />  
+						        </p:column>  
+						        
+						        <p:column headerText="Usuario">  
+						        	<h:outputText value="#{l.usuario.nome}" />  
+						        </p:column>
+						        
+						        <p:column headerText="Valor">  
+						        	<h:outputText value="#{l.valor}" />  
+						        </p:column>
+						        
+						 
+						  
+						    </p:dataTable>
+							
+						</div>
+					
+					</div>
+									
+				</div>
+			
+		</h:form>		
+		
+	</ui:define>
+</ui:composition>
